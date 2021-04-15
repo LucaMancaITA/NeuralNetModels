@@ -1,5 +1,5 @@
 
-from torchvision.transforms import Compose
+from torchvision.transforms import Compose, ToPILImage, Resize, ToTensor, CenterCrop
 
 def display_transform():
     return Compose([
