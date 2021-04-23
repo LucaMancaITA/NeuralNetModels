@@ -74,7 +74,7 @@ class Inception_block(nn.Module):
         )
 
         self.branch3 = nn.Sequential(
-            conv_block(in_channelsm red_5x5, kernel_size=1),
+            conv_block(in_channels, red_5x5, kernel_size=1),
             conv_block(red_5x5, out_5x5, kernel_size=5, padding=2)
         )
 
