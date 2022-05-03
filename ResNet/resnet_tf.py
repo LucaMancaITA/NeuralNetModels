@@ -1,8 +1,10 @@
 
-import tensorflow as tf 
-from tf.keras.layers import Layer 
-from tf.keras.model import Model
-from tf.keras import layers
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+import tensorflow as tf
+from tensorflow.keras.layers import Layer
+from tensorflow.keras import Model
+from tensorflow.keras import layers
 
 
 class IdentityBlock(Model):
@@ -50,10 +52,28 @@ class ResNet(Model):
         x = self.conv(inputs)
         x = self.bn(x)
         x = self.act(x)
-        x = self.max_poool(x)
+        x = self.max_pool(x)
 
         x = self.idla(x)
         x = self.idlb(x)
 
         x = self.global_pool(x)
+        x = self.classifier(x)
         return x
+
+    def summary_model(self):
+        inputs = tf.keras.Input(shape=(224, 224, 3))
+        outputs = self.call(inputs)
+        tf.keras.Model(inputs=inputs, outputs=outputs, name="thing").summary()
+
+if __name__ == "__main__":
+
+    img_size = 224
+    num_classes = 10
+    x = tf.random.uniform(shape=[1, img_size, img_size, 3])
+    model = ResNet(num_classes)
+    y = model(x)
+    print(f"\nInput shape: {x.shape}")
+    print(f"Output shaoe: {y.shape}\n")
+    model.build((1, img_size, img_size, 3))
+    print(model.summary_model())
