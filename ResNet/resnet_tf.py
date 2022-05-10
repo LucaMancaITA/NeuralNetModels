@@ -61,10 +61,10 @@ class ResNet(Model):
         x = self.classifier(x)
         return x
 
-    def summary_model(self):
-        inputs = tf.keras.Input(shape=(224, 224, 3))
+    def summary_model(self, input_shape=(224, 224, 3)):
+        inputs = tf.keras.Input(shape=input_shape)
         outputs = self.call(inputs)
-        tf.keras.Model(inputs=inputs, outputs=outputs, name="thing").summary()
+        tf.keras.Model(inputs=inputs, outputs=outputs).summary()
 
 if __name__ == "__main__":
 
@@ -74,6 +74,6 @@ if __name__ == "__main__":
     model = ResNet(num_classes)
     y = model(x)
     print(f"\nInput shape: {x.shape}")
-    print(f"Output shaoe: {y.shape}\n")
+    print(f"Output shape: {y.shape}\n")
     model.build((1, img_size, img_size, 3))
-    print(model.summary_model())
+    print(model.summary_model(input_shape=(img_size, img_size, 3)))
